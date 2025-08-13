@@ -3,10 +3,10 @@ import numpy as np
 
 def main():
     # Load data
-    df = pd.read_csv('Data/RAIS_vinculos_2022.csv')
+    df = pd.read_csv('Data/RAIS_UF_2020.csv')
     
     # Create the matrix m
-    m = df.pivot_table(index='Municipality ID', 
+    m = df.pivot_table(index='State ID', 
                       columns='Class', 
                       values='Workers', 
                       aggfunc='sum',  # Ensure summing workers
@@ -23,7 +23,7 @@ def main():
         R[~np.isfinite(R)] = 0  # Replace inf/nan with 0
     
     # Convert back to DataFrame
-    municipalities = df['Municipality ID'].unique()
+    municipalities = df['State ID'].unique()
     classes = df['Class'].unique()
     
     Rcp_df = pd.DataFrame(R, 
@@ -31,7 +31,7 @@ def main():
                          columns=classes)
     
     # Save to CSV
-    Rcp_df.to_csv('normalized_2022.csv')
+    Rcp_df.to_csv('normalized_UF_2020.csv')
     print("Specialization matrix saved to normalized.csv")
 
 if __name__ == "__main__":
