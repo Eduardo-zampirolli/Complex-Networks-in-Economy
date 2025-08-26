@@ -103,7 +103,7 @@ def main():
     # rca_matrix = pd.read_csv('your_rca_data.csv', index_col=0)
     
    # Load your RCA matrix
-    rca_matrix = pd.read_csv('Data/cnae/normalized_2022.csv', index_col=0)
+    rca_matrix = pd.read_csv('Data/cnae/normalized_CNAE_2023.csv', index_col=0)
 
     # Calculate location proximity matrix
     proximity_matrix = calculate_location_proximity_optimized(rca_matrix)

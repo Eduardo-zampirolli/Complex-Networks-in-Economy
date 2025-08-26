@@ -3,7 +3,7 @@ import numpy as np
 
 # Load your CSV file with RCA values
 # First column contains locality IDs, first row contains activity IDs
-df = pd.read_csv('Data/cnae/normalized_2022.csv', index_col=0)
+df = pd.read_csv('Data/cnae/normalized_CNAE_2023.csv', index_col=0)
 
 # Display the first few rows to verify structure
 print("RCA data:")
