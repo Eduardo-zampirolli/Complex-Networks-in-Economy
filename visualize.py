@@ -1,0 +1,16 @@
+import networkx as nx
+import matplotlib.pyplot as plt
+G = nx.read_graphml('2023_loc_tmfg.graphml')
+a = G.number_of_edges()
+print(a)
+plt.figure(figsize=(10, 10))
+nx.draw(G, node_size=20, with_labels=False)
+plt.title("Circular Layout")
+plt.show()
+G = nx.read_graphml('2023_loc_tmfg_lib.graphml')
+a = G.number_of_edges()
+print(a)
+plt.figure(figsize=(10, 10))
+nx.draw(G, node_size=20, with_labels=False)
+plt.title("Circular Layout")
+plt.show()

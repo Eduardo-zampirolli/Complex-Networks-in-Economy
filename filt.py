@@ -2,6 +2,7 @@ import numpy as np
 import networkx as nx
 from networkx.algorithms import planarity
 import matplotlib.pyplot as plt
+import pandas as pd
 
 def verify_planarity(adjacency_matrix):
     """
@@ -93,18 +94,19 @@ def visualize_graph(graph, labels=None):
 if __name__ == "__main__":
     # Create a sample proximity matrix (ϕpp′)
     # In practice, this would come from your economic data
-    np.random.seed(42)
-    n_nodes = 10
-    proximity_matrix = np.random.rand(n_nodes, n_nodes)
+    
+    proximity_matrix = pd.read_csv('Data/prox/product_proximity_matrix.csv', index_col=0)
+
+
     
     # Make it symmetric (proximity matrices are symmetric)
-    proximity_matrix = (proximity_matrix + proximity_matrix.T) / 2
+    #proximity_matrix = (proximity_matrix + proximity_matrix.T) / 2
     
     # Set diagonal to zero (no self-proximity)
-    np.fill_diagonal(proximity_matrix, 0)
+    #np.fill_diagonal(proximity_matrix, 0)
     
-    print("Original proximity matrix:")
-    print(proximity_matrix)
+    #print("Original proximity matrix:")
+    #print(proximity_matrix)
     
     # Verify if the complete graph is planar (it shouldn't be for n > 4)
     complete_graph_planar = verify_planarity(proximity_matrix)
@@ -118,14 +120,13 @@ if __name__ == "__main__":
     # Verify that the PMFG is planar
     pmfg_planar = verify_planarity(nx.to_numpy_array(pmfg))
     print(f"PMFG is planar: {pmfg_planar}")
-    
+    pmfg.to_csv('pmfg_2023_prod.csv') 
     # Create some sample labels (in practice, these would be product/activity names)
-    labels = {i: f"P{i+1}" for i in range(n_nodes)}
     
     # Visualize the PMFG
-    visualize_graph(pmfg, labels)
+    #visualize_graph(pmfg, labels)
     
     # Print the edges in the PMFG with their weights
-    print("\nEdges in the PMFG:")
-    for edge in pmfg.edges(data=True):
-        print(f"P{edge[0]+1} -- P{edge[1]+1} (weight: {edge[2]['weight']:.3f})")
+    #print("\nEdges in the PMFG:")
+    #for edge in pmfg.edges(data=True):
+    #    print(f"P{edge[0]+1} -- P{edge[1]+1} (weight: {edge[2]['weight']:.3f})")
