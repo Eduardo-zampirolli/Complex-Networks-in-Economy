@@ -25,3 +25,5 @@ import networkx as nx
 G = nx.from_numpy_array(adj_matrix)
 nx.write_graphml(G, "2023_loc_tmfg_lib.graphml")
 nx.to_pandas_edgelist(G).to_csv("2023_loc_tmfg_lib.csv", index=False) 
+
+
