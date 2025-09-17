@@ -21,9 +21,24 @@ cliques, separators, adj_matrix = model.fit_transform(
 )
 
 # Convert to NetworkX if needed
+
 import networkx as nx
 G = nx.from_numpy_array(adj_matrix)
 nx.write_graphml(G, "2023_loc_tmfg_lib.graphml")
 nx.to_pandas_edgelist(G).to_csv("2023_loc_tmfg_lib.csv", index=False) 
 
+weighted_adjacency = np.zeros_like(adj_matrix)
+for i in range(adj_matrix.shape[0]):
+    for j in range(adj_matrix.shape[1]):
+        if adj_matrix[i, j] != 0:  # If there's an edge
+            weighted_adjacency[i, j] = proximity_matrix.iloc[i, j]  # Use original weight
+
+weighted_adjacency_df = pd.DataFrame(
+    weighted_adjacency,
+    index=proximity_matrix.index,
+    columns=proximity_matrix.columns
+)
+
+weighted_adjacency_df.to_csv("2023_loc_tmfg_weighted_adjacency_matrix.csv")
+print(f"Weighted adjacency matrix saved with shape: {weighted_adjacency_df.shape}")
 
