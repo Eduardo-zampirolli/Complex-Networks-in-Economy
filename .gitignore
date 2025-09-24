@@ -1,2 +1,5 @@
 Data/
+build/
+results/
+venv/
 
