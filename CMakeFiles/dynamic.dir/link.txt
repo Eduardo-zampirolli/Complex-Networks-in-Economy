@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/dynamic.dir/dynamic_wrong.cpp.o -o dynamic  /usr/local/lib/libOGDF.a /usr/local/lib/libCOIN.a -lpthread 
