@@ -2,4 +2,7 @@ Data/
 build/
 results/
 venv/
-
+.vscode/
+.ipnb_checkpoints/
+CMakeLists.txt
+CMakeCache.txt
