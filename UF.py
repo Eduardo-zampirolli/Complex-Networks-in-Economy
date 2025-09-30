@@ -3,7 +3,7 @@ import numpy as np
 
 def main():
     # Load data
-    df = pd.read_csv('Data/RAIS_UF_2020.csv')
+    df = pd.read_csv('Data/RAIS/RAIS_UF_2023.csv')
     
     # Create the matrix m
     m = df.pivot_table(index='State ID', 
@@ -31,7 +31,7 @@ def main():
                          columns=classes)
     
     # Save to CSV
-    Rcp_df.to_csv('normalized_UF_2020.csv')
+    Rcp_df.to_csv('normalized_UF_2023.csv')
     print("Specialization matrix saved to normalized.csv")
 
 if __name__ == "__main__":

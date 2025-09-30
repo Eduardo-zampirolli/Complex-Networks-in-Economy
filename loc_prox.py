@@ -103,30 +103,18 @@ def main():
     # rca_matrix = pd.read_csv('your_rca_data.csv', index_col=0)
     
    # Load your RCA matrix
-    rca_matrix = pd.read_csv('Data/cnae/normalized_CNAE_2023.csv', index_col=0)
+    rca_matrix = pd.read_csv('normalized_UF_2023.csv', index_col=0)
 
     # Calculate location proximity matrix
     proximity_matrix = calculate_location_proximity_optimized(rca_matrix)
 
     # Save the results
-    proximity_matrix.to_csv('location_proximity_matrix.csv')
+    proximity_matrix.to_csv('location_proximity_matrix_UF_2023.csv')
 
     # Display basic information
     print(f"Location proximity matrix shape: {proximity_matrix.shape}")
     print(f"Number of location pairs: {len(proximity_matrix) * (len(proximity_matrix) - 1) // 2}")
     print(f"Average proximity: {proximity_matrix.values.mean():.3f}")
-
-    # Create a heatmap for visualization (optional)
-    import seaborn as sns
-    import matplotlib.pyplot as plt
-
-    plt.figure(figsize=(10, 8))
-    sns.heatmap(proximity_matrix, cmap='RdBu_r', center=0, 
-                xticklabels=proximity_matrix.index, yticklabels=proximity_matrix.columns)
-    plt.title('Location Proximity Matrix')
-    plt.tight_layout()
-    plt.savefig('location_proximity_heatmap.png')
-    plt.show()
 
 if __name__ == "__main__":
     main()

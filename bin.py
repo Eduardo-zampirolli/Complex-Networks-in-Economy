@@ -3,7 +3,7 @@ import numpy as np
 
 # Load your CSV file with RCA values
 # First column contains locality IDs, first row contains activity IDs
-df = pd.read_csv('Data/cnae/normalized_CNAE_2023.csv', index_col=0)
+df = pd.read_csv('normalized_UF_2023.csv', index_col=0)
 
 # Display the first few rows to verify structure
 print("RCA data:")
@@ -37,7 +37,7 @@ print("\nUbiquity (locations per activity):")
 print(ubiquity.head())
 
 # Save the binary matrix to a new CSV file
-binary_matrix.to_csv('binary_matrix.csv')
+binary_matrix.to_csv('binary_matrix_UF_2023.csv')
 print("\nBinary matrix saved to 'binary_matrix.csv'")
 
 # Optional: Save diversity and ubiquity as well
