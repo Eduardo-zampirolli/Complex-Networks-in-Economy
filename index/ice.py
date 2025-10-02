@@ -22,7 +22,8 @@ def main():
     eigenvalues_sorted = eigenvalues[sorted_idx]
     eigenvectors_sorted = eigenvectors[:, sorted_idx]
     
-    K_2 = eigenvectors_sorted[:, 1]
+    # Extract only the real part of the second eigenvector
+    K_2 = np.real(eigenvectors_sorted[:, 1])
 
     ice = (K_2 - np.mean(K_2)) / np.std(K_2)
     print(ice)
