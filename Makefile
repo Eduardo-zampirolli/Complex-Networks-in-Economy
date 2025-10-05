@@ -117,41 +117,41 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named dynamic
+# Target rules for targets named teste
 
 # Build rule for target.
-dynamic: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 dynamic
-.PHONY : dynamic
+teste: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 teste
+.PHONY : teste
 
 # fast build rule for target.
-dynamic/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/dynamic.dir/build.make CMakeFiles/dynamic.dir/build
-.PHONY : dynamic/fast
+teste/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/teste.dir/build.make CMakeFiles/teste.dir/build
+.PHONY : teste/fast
 
-dynamic_wrong.o: dynamic_wrong.cpp.o
-.PHONY : dynamic_wrong.o
+static.o: static.cpp.o
+.PHONY : static.o
 
 # target to build an object file
-dynamic_wrong.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/dynamic.dir/build.make CMakeFiles/dynamic.dir/dynamic_wrong.cpp.o
-.PHONY : dynamic_wrong.cpp.o
+static.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/teste.dir/build.make CMakeFiles/teste.dir/static.cpp.o
+.PHONY : static.cpp.o
 
-dynamic_wrong.i: dynamic_wrong.cpp.i
-.PHONY : dynamic_wrong.i
+static.i: static.cpp.i
+.PHONY : static.i
 
 # target to preprocess a source file
-dynamic_wrong.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/dynamic.dir/build.make CMakeFiles/dynamic.dir/dynamic_wrong.cpp.i
-.PHONY : dynamic_wrong.cpp.i
+static.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/teste.dir/build.make CMakeFiles/teste.dir/static.cpp.i
+.PHONY : static.cpp.i
 
-dynamic_wrong.s: dynamic_wrong.cpp.s
-.PHONY : dynamic_wrong.s
+static.s: static.cpp.s
+.PHONY : static.s
 
 # target to generate assembly for a file
-dynamic_wrong.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/dynamic.dir/build.make CMakeFiles/dynamic.dir/dynamic_wrong.cpp.s
-.PHONY : dynamic_wrong.cpp.s
+static.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/teste.dir/build.make CMakeFiles/teste.dir/static.cpp.s
+.PHONY : static.cpp.s
 
 # Help Target
 help:
@@ -161,10 +161,10 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... dynamic"
-	@echo "... dynamic_wrong.o"
-	@echo "... dynamic_wrong.i"
-	@echo "... dynamic_wrong.s"
+	@echo "... teste"
+	@echo "... static.o"
+	@echo "... static.i"
+	@echo "... static.s"
 .PHONY : help
 
 
