@@ -1,3 +1,0 @@
-/home/dudu/Documentos/Complex-Networks-in-Economy/CMakeFiles/dynamic.dir
-/home/dudu/Documentos/Complex-Networks-in-Economy/CMakeFiles/edit_cache.dir
-/home/dudu/Documentos/Complex-Networks-in-Economy/CMakeFiles/rebuild_cache.dir

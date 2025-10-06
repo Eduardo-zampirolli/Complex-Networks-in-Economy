@@ -102,45 +102,45 @@ int main() {
     DynamicPlanarSPQRTree spqrTree(graph);
     
 
-// First, create a spanning tree to ensure the graph is connected and planar
-// Start with the strongest edges that form a tree
-UnionFind uf(n);
-int edgesAdded = 0;
+    // First, create a spanning tree to ensure the graph is connected and planar
+    // Start with the strongest edges that form a tree
+    UnionFind uf(n);
+    int edgesAdded = 0;
 
-// Add edges that maintain connectivity without breaking planarity
-for (int i = 0; i < edges.size() && edgesAdded < n-1; i++) {
-    const Edge& e = edges[i];
-    if (uf.find(e.source) != uf.find(e.dest)) {
-        graph.newEdge(nodes[e.source], nodes[e.dest]);
-        uf.unionBlocks(e.source, e.dest);
-        edgesAdded++;
-    }
-}
-
-// NOW create the DynamicPlanarSPQRTree with the initial planar graph
-DynamicPlanarSPQRTree spqrTree(graph, false); // false = don't verify planarity
-
-// Continue adding the strongest edges that maintain planarity
-for (int i = 0; i < edges.size() && graph.numberOfEdges() < (3*n - 6); i++) {
-    const Edge& e = edges[i];
-    
-    // Skip if edge already exists
-    bool exists = false;
-    for(edge existing : graph.edges) {
-        if ((existing->source() == nodes[e.source] && existing->target() == nodes[e.dest]) ||
-            (existing->source() == nodes[e.dest] && existing->target() == nodes[e.source])) {
-            exists = true;
-            break;
+    // Add edges that maintain connectivity without breaking planarity
+    for (int i = 0; i < edges.size() && edgesAdded < n-1; i++) {
+        const Edge& e = edges[i];
+        if (uf.find(e.source) != uf.find(e.dest)) {
+            graph.newEdge(nodes[e.source], nodes[e.dest]);
+            uf.unionBlocks(e.source, e.dest);
+            edgesAdded++;
         }
     }
-    if (exists) continue;
-    
-    // Check if we can insert this edge without losing planarity
-    if (spqrTree.checkInsertion(nodes[e.source], nodes[e.dest])) {
-        edge newEdge = spqrTree.insertEdge(nodes[e.source], nodes[e.dest]);
-        cout << "Added edge: " << e.source << " - " << e.dest << endl;
+
+    // NOW create the DynamicPlanarSPQRTree with the initial planar graph
+    DynamicPlanarSPQRTree spqrTree(graph, false); // false = don't verify planarity
+
+    // Continue adding the strongest edges that maintain planarity
+    for (int i = 0; i < edges.size() && graph.numberOfEdges() < (3*n - 6); i++) {
+        const Edge& e = edges[i];
+        
+        // Skip if edge already exists
+        bool exists = false;
+        for(edge existing : graph.edges) {
+            if ((existing->source() == nodes[e.source] && existing->target() == nodes[e.dest]) ||
+                (existing->source() == nodes[e.dest] && existing->target() == nodes[e.source])) {
+                exists = true;
+                break;
+            }
+        }
+        if (exists) continue;
+        
+        // Check if we can insert this edge without losing planarity
+        if (spqrTree.checkInsertion(nodes[e.source], nodes[e.dest])) {
+            edge newEdge = spqrTree.insertEdge(nodes[e.source], nodes[e.dest]);
+            cout << "Added edge: " << e.source << " - " << e.dest << endl;
+        }
     }
-}
 
 
 
