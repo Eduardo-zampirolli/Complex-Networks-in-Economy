@@ -6,30 +6,28 @@ import cartopy.feature as cfeature
 import matplotlib.pyplot as plt
 from shapely.geometry import Point
 
-#arquivos
-#Pegar os ids
-with open('../Data/cnae/2020/ordem.txt', 'r') as f:
-    ordem = f.read().split('\n')
-print(ordem)
-id_to_code = {i+1: (code) for i, code in enumerate(ordem)}
+# arquivos
+# Read municipality data
 mun_df = pd.read_csv('../Data/municipios.csv', encoding='utf-8', usecols=['codigo_ibge', 'latitude', 'longitude', 'nome', 'codigo_uf'])
-#mun_df['codigo_ibge'] = mun_df['codigo_ibge']//10
 
-ice_df = pd.read_csv('../Data/cnae/2020/ice_results.csv', encoding='utf-8', usecols=['region_index', 'ice_value'])
+# Read ICE data - now with location names directly
+ice_df = pd.read_csv('../Data/cnae/2020/ice_results.csv', encoding='utf-8', usecols=['location', 'ice_value'])
+
+# Convert location column to integer to match codigo_ibge
+ice_df['codigo_ibge'] = ice_df['location'].astype(int)
 
 # Merge ICE data with municipality data
-# Assuming region_index corresponds to the order in ordem.txt
-ice_df['codigo_ibge'] = ice_df['region_index'].map(lambda x: int(ordem[x]) if x < len(ordem) else None)
 mun_ice_df = mun_df.merge(ice_df, on='codigo_ibge', how='inner')
 
+# Create GeoDataFrame
 geometry = [Point(lon, lat) for lon, lat in zip(mun_ice_df['longitude'], mun_ice_df['latitude'])]
 mun_gdf = gpd.GeoDataFrame(
         mun_ice_df, 
         geometry=geometry,
         crs="EPSG:4326"
 )
-#visualize ICE on map
 
+# Visualize ICE on map
 fig = plt.figure(figsize=(16, 14))
 ax = fig.add_subplot(1, 1, 1, projection=ccrs.PlateCarree())
 
@@ -62,7 +60,7 @@ if not mun_gdf.empty:
     cbar.set_label('Economic Complexity Index (ICE)', fontsize=12)
     
     # Add title
-    ax.set_title('Economic Complexity Index (ICE) by Brazilian Municipalities', 
+    ax.set_title('Economic Complexity Index (ICE) by Brazilian Municipalities - 2020', 
                 fontsize=16, fontweight='bold', pad=20)
 
 plt.tight_layout()
@@ -72,11 +70,12 @@ plt.show()
 print(f"Total municipalities with ICE data: {len(mun_gdf)}")
 print(f"ICE range: {mun_gdf['ice_value'].min():.3f} to {mun_gdf['ice_value'].max():.3f}")
 print(f"Mean ICE: {mun_gdf['ice_value'].mean():.3f}")
+print(f"Standard deviation ICE: {mun_gdf['ice_value'].std():.3f}")
 print(f"Top 5 municipalities by ICE:")
 top_5 = mun_gdf.nlargest(5, 'ice_value')[['codigo_ibge', 'nome', 'ice_value']]
 print(top_5.to_string(index=False))
 
-
-
-
+print(f"\nBottom 5 municipalities by ICE:")
+bottom_5 = mun_gdf.nsmallest(5, 'ice_value')[['codigo_ibge', 'nome', 'ice_value']]
+print(bottom_5.to_string(index=False))
 

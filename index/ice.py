@@ -19,7 +19,7 @@ def main():
     - kp,0: diversity of location p (number of industries)
     - ki,0: ubiquity of industry i (number of locations)
     """
-    data_dir = "/home/c-ec2024/ra281154/Complex-Networks-in-Economy/Data/cnae/2023/"
+    data_dir = "../Data/cnae/2022/"
     bin_file = os.path.join(data_dir, "binary_matrix.csv")
     M = pd.read_csv(bin_file)
     M = M.astype(float)
