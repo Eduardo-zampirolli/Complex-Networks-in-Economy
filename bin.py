@@ -37,10 +37,10 @@ print("\nUbiquity (locations per activity):")
 print(ubiquity.head())
 
 # Save the binary matrix to a new CSV file
-binary_matrix.to_csv('Data/cnae/2022/binary_matrix_estab_2022.csv')
+binary_matrix.to_csv('Data/cnae/2020/binary_matrix.csv')
 print("\nBinary matrix saved to 'binary_matrix.csv'")
 
 # Optional: Save diversity and ubiquity as well
-diversity.to_csv('diversity_estab_2022.csv', header=['Diversity'])
-ubiquity.to_csv('ubiquity_estab_2022.csv', header=['Ubiquity'])
+diversity.to_csv('Data/cnae/2020/diversity_estab_2022.csv', header=['Diversity'])
+ubiquity.to_csv('Data/cnae/2020/ubiquity_estab_2022.csv', header=['Ubiquity'])
 print("Diversity and ubiquity saved to CSV files")

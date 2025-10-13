@@ -3,11 +3,11 @@ import numpy as np
 
 def main():
     # Load data
-    df = pd.read_csv('Data/cnae/2022/RAIS_estab_2022.csv')
+    df = pd.read_csv('Data/cnae/2020/RAIS_vinculos_2020.csv')
     
     # Create the matrix m
     m = df.pivot_table(index='Municipality ID', 
-                      columns='Class', 
+                      columns='Class ID', 
                       values='Workers', 
                       aggfunc='sum',  # Ensure summing workers
                       fill_value=0).values
@@ -31,7 +31,7 @@ def main():
                          columns=classes)
     
     # Save to CSV
-    Rcp_df.to_csv('normalized_2022.csv')
+    Rcp_df.to_csv('Data/cnae/2020/normalized_2020.csv')
     print("Specialization matrix saved to normalized.csv")
 
 if __name__ == "__main__":
