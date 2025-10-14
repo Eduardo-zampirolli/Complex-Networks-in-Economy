@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 
 def main():
-    # Load data
     df = pd.read_csv('Data/cnae/2020/RAIS_vinculos_2020.csv')
     
     # Create the matrix m
@@ -11,17 +10,15 @@ def main():
                       values='Workers', 
                       aggfunc='sum',  # Ensure summing workers
                       fill_value=0).values
-    
     # Calculate totals
-    X = np.sum(m)          # Grand total
-    X_c = np.sum(m, axis=1, keepdims=True)  # Column sums (locations)
-    X_p = np.sum(m, axis=0, keepdims=True)  # Row sums (activities)
-    
-    # Calculate Rcp with broadcasting and zero division handling
+    X = np.sum(m)
+    X_c = np.sum(m, axis=0, keepdims=True)  # Sum over locations (for each activity)
+    X_p = np.sum(m, axis=1, keepdims=True)  # Sum over activities (for each location)
+
+    #RCA = (m[p,i] * X) / (X_p[p] * X_c[i])
     with np.errstate(divide='ignore', invalid='ignore'):
-        R = (m * X) / (X_c * X_p)
-        R[~np.isfinite(R)] = 0  # Replace inf/nan with 0
-    
+        R = (m * X) / (X_p * X_c)
+        R[~np.isfinite(R)] = 0  
     # Convert back to DataFrame
     municipalities = df['Municipality ID'].unique()
     classes = df['Class'].unique()
@@ -30,7 +27,6 @@ def main():
                          index=municipalities, 
                          columns=classes)
     
-    # Save to CSV
     Rcp_df.to_csv('Data/cnae/2020/normalized_2020.csv')
     print("Specialization matrix saved to normalized.csv")
 
