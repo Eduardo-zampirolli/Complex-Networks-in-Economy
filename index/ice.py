@@ -19,11 +19,14 @@ def main():
     - kp,0: diversity of location p (number of industries)
     - ki,0: ubiquity of industry i (number of locations)
     """
-    data_dir = "../Data/cnae/2020/"
-    bin_file = os.path.join(data_dir, "binary_matrix.csv")
+    script_dir = os.path.dirname(os.path.abspath(__file__))
     
-    # Read the binary matrix, preserving the index (Municipality IDs)
-    M = pd.read_csv(bin_file, index_col=0)
+    # Build path relative to script location
+    bin_dir = os.path.join(script_dir, "..", "Data")
+    bin_file = "binary_imm_2020.csv"
+ 
+    #bin_file = "../Data/binary_imm_2020.csv"
+    M = pd.read_csv(os.path.join(bin_dir, bin_file), index_col=0)
     M = M.astype(float)
     
     # Store municipality IDs before converting to numpy
@@ -86,3 +89,53 @@ def main():
 
 if __name__ == "__main__":
     main()
+import numpy as np
+import pandas as pd
+import os
+
+def main():
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    # Build path relative to script location
+    bin_dir = os.path.join(script_dir, "..", "Data")
+    bin_file = "binary_imm_2020.csv"
+ 
+    #bin_file = "../Data/binary_imm_2020.csv"
+    M = pd.read_csv(os.path.join(bin_dir, bin_file), index_col=0)
+    M = M.astype(float)
+    
+    # Convert to numpy array for matrix operations
+    M_np = M.values
+    k_p = M_np.sum(axis=1)  # product degrees
+    k_i = M_np.sum(axis=0)  # sum of all industry degrees
+    
+    # Calculate M̃ matrix according to equation (3.6): M̃pp′ = ∑i (Mpi × Mi′p) / (kp,0 × ki,0)
+    # First attempt - vectorized approximation (not exact but faster)
+    M_normalized = M_np / k_p.reshape(-1, 1)  # Normalize by kp,0
+    M_tilde = (M_normalized @ M_np.T) / k_i.mean()  # Approximate division by ki,0
+    eigenvalues, eigenvectors = np.linalg.eig(M_tilde)
+    sorted_idx = np.argsort(np.abs(eigenvalues))[::-1]
+    eigenvalues_sorted = eigenvalues[sorted_idx]
+    eigenvectors_sorted = eigenvectors[:, sorted_idx]
+    
+    # Extract only the real part of the second eigenvector
+    K_2 = np.real(eigenvectors_sorted[:, 1])
+
+    ice = (K_2 - np.mean(K_2)) / np.std(K_2)
+    print(ice)
+    
+    # Option 1: Save as CSV
+    ice_df = pd.DataFrame({
+        'region_index': M.index,
+        'ice_value': ice
+    })
+    ice_df.to_csv(os.path.join(bin_dir, "ice_cod_imm_2020.csv"), index=False)
+    print(f"\nSaved results for {len(ice)} locations")
+    print(f"First few locations: {M.index[:5].tolist()}")
+    
+    return ice
+
+
+if __name__=="__main__":
+        main()
+
